@@ -18,7 +18,7 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
     showAll();
-    userPurchase();
+    
 });
 
 function showAll(all) {
@@ -36,6 +36,7 @@ function showAll(all) {
             );
         }         
     });
+    userPurchase();
 }
 
 function userPurchase() {
@@ -74,6 +75,9 @@ function userPurchase() {
                 })
                 query3 = "UPDATE bamazon.products SET stock_quantity = stock_quantity - ? WHERE item_id = ?";
                 connection.query(query3, [answer.amount, answer.itemid], function(err, res2) {
+                })
+                query4 = "UPDATE bamazon.products SET product_sales = product_sales + ? WHERE item_id = ?";
+                connection.query(query4, [((answer.amount) * (res[0].price)), answer.itemid], function(err, res3) {
                 })
             }
             else {
